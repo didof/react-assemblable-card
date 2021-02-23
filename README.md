@@ -1,3 +1,5 @@
+# Assemblable Card
+
 In this first post of a series, I begin the implementation of a composable React component.
 
 It is a Card that can be _expanded_ with sub-components thanks to the **Compound Pattern**
