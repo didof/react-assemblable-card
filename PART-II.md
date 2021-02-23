@@ -2,7 +2,7 @@
 
 ### Recap
 
-In the first post of the series I built a Card component that can be extended with a series of sub-components using the **Compound Pattern**
+In the first post of the series I built a Card component that can be extended with a series of sub-components using the **Compound Pattern** 🏗
 
 However, the order in which they are inserted in the component instantiation is relevant to the order in which they are rendered. Although it is a greater degree of freedom, it is associated with various complications regarding the style and any functionality that I will implement in the following chapters
 
@@ -19,9 +19,19 @@ I will achieve this in two steps
 
 ---
 
-#### Chapter III - Another Brick in The Wall
+#### Chapter III
 
-Using an approach similar to that adopted for the census of the sub-components and therefore of the helper methods created in the [previous post](#), I extrapolate each sub-component and store the reference in the appropriate category so that it can be reused at will at a later time
+> Don't be a 🟩
+>
+> ~ <cite>Mia Wallace</cite>
+
+<a></a>
+
+> Not this time
+>
+> ~ <cite>Myself</cite>
+
+Using an approach similar to that adopted for the census of the sub-components and therefore of the helper methods created in the [previous post](#), I extrapolate each sub-component and store the reference in the appropriate category so that it can be reused at will at a later time 📼
 
 Then I proceed to group the children into a helper method
 
@@ -191,7 +201,7 @@ However this is not the approach I want to use as for each sub-component there a
 - In case of two headers granted and provided, what do I do with the second? And of a possible third party?
 - What if the next day I want to generate different types of layouts by passing a prop to Card - i.e. `<Card layout="minimal" />`?
 
-Too many eventualities that will only grow with the complexity of the _blueprint_. Too much potential chaos. I need something to take care of it - **Builders** (in the next post)
+Too many eventualities that will only grow with the complexity of the _blueprint_. Too much potential chaos 👹. I need something to take care of it - **Builders** 🔨 (in the next post)
 
 ---
 
