@@ -1,33 +1,35 @@
 # Assemblable Card
 
-Recap dal post precedente.
+### Recap
 
-Al termine del primo post della serie ho costruito un componente Card che mediante il Compound Pattern è estendibile con una serie di sotto componenti.
+In the first post of the series I built a Card component that can be extended with a series of sub-components using the **Compound Pattern**
 
-Tuttavia l'ordine in cui vengono inseriti nell'instanziamento del componente è rilevante circa l'ordine secondo cui vengono renderizzati. Seppur trattandosi di un grado di libertà maggiore, è associato con diverse complicazioni circa lo stile ed eventuali funzionalità che andrò ad implementare nei sotto-componenti stessi.
+However, the order in which they are inserted in the component instantiation is relevant to the order in which they are rendered. Although it is a greater degree of freedom, it is associated with various complications regarding the style and any functionality that I will implement in the following chapters
 
-Pertanto
+<center> ~ <b>Therefore</b> ~ </center>
 
-L'obiettivo di questo post è ottenere che, a prescindere dall'ordine utilizzato nell'istanziamento della card, il posizionamento dei sotto componenti sia sempre il medesimo.
+The goal of this post is to obtain that, regardless of the order used in the instantiation of the card, the positioning of the sub-components is well defined
 
-Raggiungerò tale obiettivo in due step:
+> This theme is particularly close to my heart as I want to build a product that does not force the user to open it (unless they feel like it)
 
-- mappatura dei riferimenti relativi ad ogni sotto-componente utilizzato all'interno di un oggetto
-- posizionamento di ogni sotto-componente alla propria posizione specifica all'interno dei confini della card
+I will achieve this in two steps
+
+1. mapping of the relative references to each sub-component used
+1. positioning each sub-component to its specific position within the card boundaries (in the next post)
 
 ---
 
 #### Chapter III - Another Brick in The Wall
 
-Mediante un approccio simile a quello adottato per il censimento dei sotto-componenti (vedi post precedente), questa volta non mi limio a verificare che la struttura rispetti il blueprint - di ogni sotto-componente estrapolo e immagazzino il riferimento nell'apposita categoria in modo da poterlo riutilizzare a piacimento in un secondo momento.
+Using an approach similar to that adopted for the census of the sub-components and therefore of the helper methods created in the [previous post](#), I extrapolate each sub-component and store the reference in the appropriate category so that it can be reused at will at a later time
 
-Quindi procedo al raggruppamento dei children in un helper method.
+Then I proceed to group the children into a helper method
 
 ```bash
 touch src/utils/groupChildren.js
 ```
 
-Come `registerChildren` si tratta di una funzione utilizzata nel costruttore di Card.
+Like `registerChildren` it is a function used in the Card constructor
 
 ###### Card.js (details)
 
@@ -48,7 +50,7 @@ constructor(props) {
   }
 ```
 
-La funzione `groupChildren` riceve come quella che la precede il blueprint e gli effettivi children sui quali iterare.
+The `groupChildren` function, as the one before it, receives the _blueprint_ and the actual children on which to iterate
 
 ###### countChildren.js (partial)
 
@@ -65,7 +67,9 @@ const groupChildren = (blueprint, children) => {
 export default groupChildren
 ```
 
-Come prima cosa, genera un oggetto con la stessa struttura del _blueprint_. Differente dall'utilizzo nel post precedente, passo un secondo argomento - una array vuota. Nel caso in cui il blueprint fosse
+First, it generates an object with the same structure as the _blueprint_. Different from the usage in the previous post, I pass a second argument - an empty array
+
+In case the _blueprint_ was
 
 ###### config.js
 
@@ -78,7 +82,7 @@ export const blueprint = {
 }
 ```
 
-Otterrò che group corrisponde ad un oggetto del tipo
+I'll get that `group` matches an object of the type
 
 ###### console.log(group)
 
@@ -91,7 +95,7 @@ Otterrò che group corrisponde ad un oggetto del tipo
 }
 ```
 
-Perfetto. Posso dunque iterare per i figli e pushare ognuno nell'opportuna array.
+So I can iterate through the children and put each in the appropriate array
 
 ###### countChildren.js (partial)
 
@@ -114,13 +118,13 @@ const groupChildren = (blueprint, children) => {
 export default groupChildren
 ```
 
-Ogni sotto-componente viene identificato e sfruttando la stretta corrispondenza tra i nomi dei sotto-componenti e le proprietà in `groups`, è facile inserirli al posto giusto.
+Each sub-component is identified and taking advantage of the close correspondence between the sub-component names and the properties in `groups`, it's easy to put them in the right place
 
-> Come nel post precedente, ai fini di questo post sto dando per assunto che tutti i children diretti di Card siano un suo sotto-componente e mai un qualsiasi altro HTML tag. Si tratta certo di una limitazione, facilmente raggirabile però mediante un altro design pattern, il Context API
+> As in the previous post, for the purposes of this post I am assuming that all direct children of Card are a sub-component of it and never any other _HTML tag_. This is certainly a limitation, but can be easily circumvented by means of another design pattern, the **Context API**
 
-Tiro le somme.
+<center> ~ <b>Summing up</b> ~ </center>
 
-Utilizzando il componente & figli come segue
+Using the Card component & children as follows
 
 ###### App.js (detail)
 
@@ -132,9 +136,9 @@ Utilizzando il componente & figli come segue
 </Card>
 ```
 
-Ottengo come prodotto di `groupChildren`
+I get it as a product of `groupChildren`
 
-###### groupChildren output (snellito)
+###### groupChildren() output (streamlined)
 
 ```js
 {
@@ -157,7 +161,7 @@ Ottengo come prodotto di `groupChildren`
 
 #### Interlude III
 
-Per verificare se è effettivamente possibile sfruttare i sotto-componenti così organizzati faccio una prova
+To check if it is actually possible to exploit the sub-components thus organized I do a test
 
 ###### Card.js (constructor detail)
 
@@ -167,7 +171,7 @@ const groups = groupChildren(blueprint, props.children)
 this.groups = groups
 ```
 
-E nel render sostituisco `{this.props.children}` con
+And in rendering I replace `{this.props.children}` with
 
 ###### Card.js (render detail)
 
@@ -177,15 +181,17 @@ render() {
   }
 ```
 
-Ed effettivamente solo il sotto-component Header e il suo contenuto appaiono nella card. Posso dunque posizionare con un alto grado di precisione dove ogni eventuale figlio dovrà essere renderizzato.
+And actually only the Header sub-component and its contents appear on the card. I can stuff it inside an indefinite number of HTML tags; I can also duplicate it at will - It appears where I tell it.
 
-Tuttavia non è questo l'approccio che voglio utilizzare in quanto per ogni sotto-componente ci sono diverse cose da tenere a mente
+> I can therefore position with a high degree of precision where any child will have to be rendered.
 
-- è stato utilizzato?
-- in caso di due header concessi e forniti, cosa ne faccio del secondo? E di un eventuale terzo?
-- E se l'indomani volessi generare diversi tipi di layout passando una prop a Card - i.e. `<Card layout="minimal" />`?
+However this is not the approach I want to use as for each sub-component there are several things to keep in mind
 
-Risposta: **Builders**
+- Was it used or not?
+- In case of two headers granted and provided, what do I do with the second? And of a possible third party?
+- What if the next day I want to generate different types of layouts by passing a prop to Card - i.e. `<Card layout="minimal" />`?
+
+Too many eventualities that will only grow with the complexity of the _blueprint_. Too much potential chaos. I need something to take care of it - **Builders** (in the next post)
 
 ---
 
