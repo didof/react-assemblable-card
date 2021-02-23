@@ -6,8 +6,9 @@ import Image from './extentions/Image'
 import Description from './extentions/Description'
 import Footer from './extentions/Footer'
 
-import registerChildren from '../../utils/registerChildren'
 import { blueprint } from './config'
+import registerChildren from '../../utils/registerChildren'
+import groupChildren from '../../utils/groupChildren'
 
 class Card extends React.Component {
   static Header = Header
@@ -22,10 +23,14 @@ class Card extends React.Component {
     if (!children) return
 
     registerChildren(blueprint, props.children, true)
+
+    const groups = groupChildren(blueprint, props.children)
+
+    this.groups = groups
   }
 
   render() {
-    return <article className='card'>{this.props.children}</article>
+    return <article className='card'>{this.groups.Header[0]}</article>
   }
 }
 

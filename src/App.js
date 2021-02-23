@@ -4,10 +4,9 @@ const App = () => {
   return (
     <div>
       <Card>
-        <Card.Header>Let my heart go</Card.Header>
-        <Card.Description>Let your son grow</Card.Description>
-        <Card.Description>Mama, let my heart go</Card.Description>
-        <Card.Footer>Or let this heart be still</Card.Footer>
+        <Card.Header>Never talking</Card.Header>
+        <Card.Description>Just keeps walking</Card.Description>
+        <Card.Footer>Spreading his magic</Card.Footer>
       </Card>
     </div>
   )
